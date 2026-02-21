@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Static Huffman Coding</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>Static Huffman Coding (Probability Based)</h1>
+
+<form action="/predict" method="POST">
+    <label>Letters (comma separated):</label><br>
+    <input type="text" name="letters" placeholder="A,B,C,D,E,F,G,H" required><br><br>
+
+    <label>Probabilities (comma separated):</label><br>
+    <input type="text" name="probabilities" placeholder="0.05,0.075,0.1,..." required><br><br>
+
+    <label>Message to Encode (optional):</label><br>
+    <input type="text" name="message"><br><br>
+
+    <button type="submit">Generate Huffman</button>
+</form>
+
+{% if codes %}
+
+<h2>Huffman Codes</h2>
+<ul>
+{% for k,v in codes.items() %}
+<li>{{ k }} : {{ v }}</li>
+{% endfor %}
+</ul>
+
+<h3>Entropy: {{ entropy }} bits</h3>
+<h3>Average Code Length: {{ avg_length }} bits</h3>
+
+{% if encoded %}
+<h3>Encoded: {{ encoded }}</h3>
+<h3>Decoded: {{ decoded }}</h3>
+{% endif %}
+
+<h2>Merge Steps</h2>
+<ul>
+{% for step in merge_steps %}
+<li>Combine ({{ step[0] }}, {{ step[1] }}) + ({{ step[2] }}, {{ step[3] }}) → {{ step[4] }}</li>
+{% endfor %}
+</ul>
+
+<h2>Huffman Tree</h2>
+<img src="{{ url_for('static', filename='tree.png') }}" width="800">
+
+{% endif %}
+
+</div>
+
+</body>
+</html>
